@@ -27,9 +27,10 @@ radio.onReceivedString(function(receivedString: string) {
         {
             message = "";
         }
-        else if ("end")
+        else if (receivedString = "end")
         {
             serial.writeString(receivedString);
+            message = "";
         }
         else{
             message += receivedString;
