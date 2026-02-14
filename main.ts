@@ -23,13 +23,13 @@ input.onButtonPressed(Button.B, function () {
 
 radio.onReceivedString(function(receivedString: string) {
     if (connected) {
-        if (receivedString = "start")
+        if (receivedString == "start")
         {
             message = "";
         }
-        else if (receivedString = "end")
+        else if (receivedString == "end")
         {
-            serial.writeString(receivedString);
+            serial.writeString(message);
             message = "";
         }
         else{
