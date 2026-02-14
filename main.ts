@@ -60,6 +60,25 @@ serial.onDataReceived(";", () => {
     }
     else
     {
-        radio.sendString(received);
+        sendString(received);
     }
 });
+
+function sendString(message: string) {
+    let length = message.length;
+    radio.sendString("start");
+
+    do {
+        if (length <= 20) {
+            radio.sendString(message);
+            length = 0;
+        }
+        else {
+            radio.sendString(message.substr(0, 19));
+            message = message.substr(19);
+            length -= 19;
+        }
+    } while (length > 0)
+
+    radio.sendString("end");
+}
