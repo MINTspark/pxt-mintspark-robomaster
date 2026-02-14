@@ -1,5 +1,6 @@
 let connected = false;
 let radioGroup = 123;
+let message = "";
 basic.showIcon(IconNames.Sad);
 radio.setGroup(radioGroup);
 
@@ -22,7 +23,17 @@ input.onButtonPressed(Button.B, function () {
 
 radio.onReceivedString(function(receivedString: string) {
     if (connected) {
-        serial.writeString(receivedString);
+        if (receivedString = "start")
+        {
+            message = "";
+        }
+        else if ("end")
+        {
+            serial.writeString(receivedString);
+        }
+        else{
+            message += receivedString;
+        }
     }
 })
 
