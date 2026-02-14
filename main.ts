@@ -2,7 +2,11 @@ let connected = false;
 let radioGroup = 123;
 basic.showIcon(IconNames.Sad);
 radio.setGroup(radioGroup);
-initConnection();
+
+
+input.onButtonPressed(Button.AB, function() {
+    initConnection();
+})
 
 input.onButtonPressed(Button.A, function() {
     radioGroup--;
@@ -38,7 +42,6 @@ function initConnection(): void {
 
 serial.onDataReceived(";", () => {
     let received = serial.readString();
-    basic.showString(received);
     if (received == "ok;" || received.substr(0, 7) == "Already") {
         connected = true;
         basic.showIcon(IconNames.Happy);
