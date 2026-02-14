@@ -1,7 +1,27 @@
 let connected = false;
+let radioGroup = 123;
 basic.showIcon(IconNames.Sad);
+radio.setGroup(radioGroup);
+initConnection();
 
-// Setup serial connection transmit
+input.onButtonPressed(Button.A, function() {
+    radioGroup--;
+    radio.setGroup(radioGroup);
+    basic.showNumber(radioGroup);
+})
+
+input.onButtonPressed(Button.B, function () {
+    radioGroup++;
+    radio.setGroup(radioGroup);
+    basic.showNumber(radioGroup);
+})
+
+radio.onReceivedString(function(receivedString: string) {
+    if (connected) {
+        serial.writeString(receivedString);
+    }
+})
+
 function initConnection(): void {
     pins.setPull(1, PinPullMode.PullUp);
     pins.setPull(8, PinPullMode.PullUp);
@@ -16,28 +36,6 @@ function initConnection(): void {
     basic.pause(500);
 }
 
-input.logoIsPressed()
-{
-    music.play(music.tonePlayable(Note.C, music.beat(BeatFraction.Eighth)), music.PlaybackMode.UntilDone)
-    serial.writeString("robotic_arm position ?;")
-}
-
-input.onButtonPressed(Button.B, function () {
-    serial.writeString("robotic_arm moveto x 150 y 100;")
-})
-
-input.onButtonPressed(Button.A, function () {
-    //serial.writeString("robotic_arm move x 5 y 5;")
-    serial.writeString("robotic_arm position ?;")
-})
-
-input.onButtonPressed(Button.AB, function() {
-    //serial.writeString("robotic_arm recenter;")
-
-    initConnection();
-})
-
-
 serial.onDataReceived(";", () => {
     let received = serial.readString();
     basic.showString(received);
@@ -47,7 +45,6 @@ serial.onDataReceived(";", () => {
     }
     else
     {
-        basic.showString(received);
+        radio.sendString(received);
     }
 });
-
